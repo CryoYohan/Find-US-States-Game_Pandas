@@ -7,6 +7,7 @@ class Window:
     def __init__(self):
         super().__init__()
         self.screen = Screen()
+        self.screen.title('US Guessing States Game')
         image = 'blank_states_img.gif'
         self.screen.addshape(image)
         turtle.shape(image)
