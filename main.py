@@ -22,6 +22,7 @@ class States(Turtle):
         self.penup()
     
     def move(self):
+        """Move the Turtle that writes the state name to the given coordinates"""
         self.goto(self.x, self.y)
         self.write(f'{self.state}', move=True, align='center')
 
@@ -36,24 +37,26 @@ class Main:
         self.window = Window()
 
     def start(self):
+        """Start the Game!"""
         game_is_running = True
         while game_is_running:
+
+            # Prompt user state to guess
+
             state = self.prompt.textinput(title=f'{self.states_guessed}/50 guessed!', prompt="What's the next state's name?")
-            if not state is None:
-                print(state)
-                # print(self.df[self.df.state == 'Ohio'].x.to_list()[0])
+
+            if not state is None: # If none, then User clicked Cancel button. If so, the game closes
                 if state.title() in self.states_list and state.title() not in self.correct_guesses:
                     print('Correct!')
-
                     self.states_guessed += 1
-                    xcor = self.df[self.df.state == state.title()].x.to_list()[0]
-                    ycor = self.df[self.df.state == state.title()].y.to_list()[0]
+                    xcor = self.df[self.df.state == state.title()].x.to_list()[0] # Get State X coordinates from DataFrame
+                    ycor = self.df[self.df.state == state.title()].y.to_list()[0] # Get State Y coordinates from DataFrame
                     print(f'X coord: {xcor} Y coord: {ycor}')
 
-                    self.correct_guesses.append(state.title())
+                    self.correct_guesses.append(state.title()) # Add correct guesses to validate whether the input has already been guessed
 
-                    state = States(state=state,x=xcor, y=ycor)
-                    state.move()
+                    state = States(state=state,x=xcor, y=ycor) # Initialize State-turtle object
+                    state.move() # Move the State-turtle object to the given coordinates during initialization
 
                 elif state.title() in self.correct_guesses:
                     print('You already guessed this state.')
