@@ -33,7 +33,6 @@ class Main:
         self.correct_guesses = []
 
         self.prompt = Screen()
-        self.states_guessed = 0
         self.window = Window()
 
     def start(self):
@@ -47,7 +46,7 @@ class Main:
                 state = state.title()
                 if state in self.states_list and state not in self.correct_guesses:
                     print('Correct!')
-                    #self.states_guessed += 1
+
                     xcor = self.df[self.df.state == state].x.to_list()[0] # Get State X coordinates from DataFrame
                     ycor = self.df[self.df.state == state].y.to_list()[0] # Get State Y coordinates from DataFrame
                     print(f'X coord: {xcor} Y coord: {ycor}')
@@ -66,6 +65,12 @@ class Main:
             else:
                 # Close game if cancelled
                 print('Thank you for playing!')
+                missing_states = []
+                for state in self.states_list:
+                    if not state in self.correct_guesses:
+                        missing_states.append(state)
+                new_data = pd.DataFrame(missing_states)
+                new_data.to_csv('states_to_learn.csv')
                 break
 
 
