@@ -65,10 +65,7 @@ class Main:
             else:
                 # Close game if cancelled
                 print('Thank you for playing!')
-                missing_states = []
-                for state in self.states_list:
-                    if not state in self.correct_guesses:
-                        missing_states.append(state)
+                missing_states = [state for state in self.states_list if not state in self.correct_guesses]
                 new_data = pd.DataFrame(missing_states)
                 new_data.to_csv('states_to_learn.csv')
                 break
